@@ -6,11 +6,11 @@ const Message: React.FC<{
   color: string;
 }> = ({ message, username, color }) => {
   return (
-    <div>
+    <div className="font-mono text-[12px]">
       <span className="font-bold" style={{ color }}>
-        {username}
+        {username}{" "}
       </span>
-      {message}
+      <span className=" text-gray-600">{message}</span>
     </div>
   );
 };

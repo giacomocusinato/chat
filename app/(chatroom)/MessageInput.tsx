@@ -8,12 +8,21 @@ const MessageInput: React.FC<MessageInputProps> = ({ sendMessage }) => {
   const requestMessageSend = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await sendMessage(e.currentTarget.message.value);
+    e.currentTarget.message.value = "";
   };
 
   return (
-    <form onSubmit={requestMessageSend}>
-      <input name="message" type="text" className="border p-2" />
-      <button className="border p-2">Send</button>
+    <form
+      className="flex border-t-3 border-black"
+      onSubmit={requestMessageSend}
+    >
+      <input
+        name="message"
+        type="text"
+        placeholder="Type message..."
+        className="grow-1 block w-full px-4 outline-none"
+      />
+      <button className="p-2">Send</button>
     </form>
   );
 };

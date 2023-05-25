@@ -17,7 +17,7 @@ export type TrackPresenceParams = Omit<PresencePayload, "onlineAt">;
 export type MessagePayload = {
   message: string;
   createdAt: string;
-  userId: string;
+  user: PresencePayload;
 };
 
 export default function useRealtimeChannel(channelName: string) {
@@ -66,6 +66,7 @@ export default function useRealtimeChannel(channelName: string) {
       })
       .subscribe((status) => {
         setSubscribeStatus(status);
+        // trackPresence({ username: "MitchellPowers", color: "#0284c7" });
       });
 
     return () => {
@@ -84,15 +85,19 @@ export default function useRealtimeChannel(channelName: string) {
       throw Error();
     }
 
-    await channel.send({
-      type: "broadcast",
-      event: "message",
-      payload: {
-        message,
-        userId,
-        createdAt: new Date().toISOString(),
-      },
-    });
+    try {
+      const user = presenceState[userId][0];
+
+      await channel.send({
+        type: "broadcast",
+        event: "message",
+        payload: {
+          message,
+          user,
+          createdAt: new Date().toISOString(),
+        },
+      });
+    } catch {}
   };
 
   const trackPresence = async (data: TrackPresenceParams) => {

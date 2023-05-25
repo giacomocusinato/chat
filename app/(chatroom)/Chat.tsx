@@ -29,8 +29,8 @@ const ChatRoom: React.FC<ChatProps> = ({
   };
 
   return (
-    <div className="flex h-[500px] w-[500px] flex-col rounded-[10px] border-3 border-black bg-white">
-      <div className="flex h-[56px] w-full items-center gap-4 border-b-3 border-black px-4">
+    <div className="flex h-[500px] w-[500px] flex-col overflow-hidden rounded-[10px] border-3 border-black bg-white">
+      <div className="flex h-[56px] w-full items-center gap-4 border-b-3 border-black bg-cyan-300 px-4">
         <div className="box-content h-[15px] w-[15px] rounded-full border-3 border-black"></div>
         <div className="box-content h-[15px] w-[15px] rounded-full border-3 border-black"></div>
         <div className="box-content h-[15px] w-[15px] rounded-full border-3 border-black"></div>
@@ -45,7 +45,7 @@ const ChatRoom: React.FC<ChatProps> = ({
 
       {isPresenceTracked ? (
         <>
-          <MessageList messages={messages} presenceState={presenceState} />
+          <MessageList messages={messages} />
           <MessageInput sendMessage={sendMessage} />
         </>
       ) : (
