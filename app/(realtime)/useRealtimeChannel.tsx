@@ -1,6 +1,5 @@
 import {
   REALTIME_SUBSCRIBE_STATES,
-  RealtimeChannelSendResponse,
   RealtimePresenceState,
 } from "@supabase/supabase-js";
 import { useContext, useEffect, useMemo, useState } from "react";
@@ -50,8 +49,7 @@ export default function useRealtimeChannel(channelName: string) {
   const [subscribeStatus, setSubscribeStatus] = useState<
     `${REALTIME_SUBSCRIBE_STATES}` | null
   >(null);
-  const [presenceTrackStatus, setPresenceTrackStatus] =
-    useState<RealtimeChannelSendResponse | null>(null);
+  const [isPresenceTracked, setIsPresenceTracked] = useState<boolean>(false);
 
   useEffect(() => {
     if (!channel) {
@@ -61,7 +59,7 @@ export default function useRealtimeChannel(channelName: string) {
     channel
       .on("presence", { event: "sync" }, () => {
         const state = channel.presenceState<PresencePayload>();
-        setPresenceState(state);
+        setPresenceState({ ...state });
       })
       .on("broadcast", { event: "message" }, ({ payload }) => {
         setMessages((messages) => [...messages, payload]);
@@ -74,6 +72,12 @@ export default function useRealtimeChannel(channelName: string) {
       channel.unsubscribe();
     };
   }, [channel]);
+
+  useEffect(() => {
+    setIsPresenceTracked(() => {
+      return presenceState[userId] && presenceState[userId].length > 0;
+    });
+  }, [presenceState, userId]);
 
   const sendMessage = async (message: string) => {
     if (!channel) {
@@ -109,6 +113,8 @@ export default function useRealtimeChannel(channelName: string) {
   return {
     messages,
     presenceState,
+    subscribeStatus,
+    isPresenceTracked,
     trackPresence,
     sendMessage,
   };
