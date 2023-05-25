@@ -3,8 +3,13 @@ import Chat from "./Chat";
 import Users from "./Users";
 
 export default function ChatRoom() {
-  const { presenceState, messages, trackPresence, sendMessage } =
-    useRealtimeChannel("general");
+  const {
+    presenceState,
+    messages,
+    isPresenceTracked,
+    trackPresence,
+    sendMessage,
+  } = useRealtimeChannel("general");
 
   return (
     <div className="flex gap-20">
@@ -12,6 +17,7 @@ export default function ChatRoom() {
       <Chat
         presenceState={presenceState}
         messages={messages}
+        isPresenceTracked={isPresenceTracked}
         sendMessage={sendMessage}
         trackPresence={trackPresence}
       ></Chat>
