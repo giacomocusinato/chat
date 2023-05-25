@@ -7,16 +7,21 @@ const Login: React.FC<{ requestLogin: (username: string) => {} }> = ({
   };
 
   return (
-    <div>
-      <h2 className="text-bold">Add username</h2>
-      <form onSubmit={onFormSubmit}>
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+      <h2 className="font-bold uppercase">Log-in</h2>
+      <form
+        className="flex w-full flex-col items-center gap-10"
+        onSubmit={onFormSubmit}
+      >
         <input
           name="message"
           type="text"
-          className="border p-2"
+          className="w-full max-w-[350px] border-[3px] border-black p-2 font-mono"
           placeholder="Your username"
         />
-        <button className="border p-2">Set</button>
+        <button className="rounded-md bg-blue-600 px-6 py-2 font-semibold uppercase text-white">
+          Enter
+        </button>
       </form>
     </div>
   );
